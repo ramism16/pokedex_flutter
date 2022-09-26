@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'splash_screen_page.dart';
 import 'navigation_error_screen.dart';
 
 class RouteGenerator{
