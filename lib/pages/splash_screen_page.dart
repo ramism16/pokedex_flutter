@@ -34,7 +34,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff3558CD),
+      backgroundColor: Theme.of(context).primaryColor,
       body: Padding(
         padding: EdgeInsets.only(left: 40, right: 40),
         child: Center(

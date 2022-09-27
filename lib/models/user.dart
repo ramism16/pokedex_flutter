@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+
+ValueNotifier<int> favouritesCount = ValueNotifier(User.instance.favouriteIDs.length);
 
 /// This is my approach to client-side state persistence linked to a user account/session
 class User{
@@ -20,6 +23,7 @@ class User{
     return instance;
   }
 
+  //serializing
   static void fromJson(String? jsonMap){
     try{
       if (jsonMap != null){
@@ -35,6 +39,19 @@ class User{
   }
 
   static Map<String, List<int>> toMap() => {"ids" : instance.favouriteIDs.toList()};
+
+  //functions for adding/removing favourite
+  static void addFavourite(int id){
+    if (!instance.favouriteIDs.contains(id))
+      instance.favouriteIDs.add(id);
+    favouritesCount.value = instance.favouriteIDs.length;
+  }
+
+  static void removeFavourite(int id){
+    if (instance.favouriteIDs.contains(id))
+      instance.favouriteIDs.remove(id);
+    favouritesCount.value = instance.favouriteIDs.length;
+  }
 
   //Functions for cache read,save and delete
   static Future<void> saveState() async {
