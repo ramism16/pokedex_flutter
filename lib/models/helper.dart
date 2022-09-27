@@ -28,7 +28,7 @@ Color? getPokemonColor(Pokemon pokemon){
 
 extension StringExtension on String{
   String capitalize(){
-    return "${this[0].toLowerCase()}${this.substring(1).toLowerCase()}";
+    return this[0].toUpperCase() + this.substring(1).toLowerCase();
   }
 }
 
@@ -36,7 +36,22 @@ String? typesJoin(List<String>? types){
   if (types == null) return null;
   if (types.isEmpty) return "";
   String typeString = "";
-  for (var type in types)
-    { typeString += '${type.capitalize()}${types.length > 1 ? ", " : ""}'; }
+  for (int i = 0; i < types.length; i++){
+    typeString += types[i].capitalize();
+    if (i + 1 != types.length)
+      typeString += ', ';
+  }
+
   return typeString;
+}
+
+int? getStatsAverage(List<Stat>? stats){
+  if (stats == null) return null;
+  int total = 0, i = 0, j = 0;
+  for (; i < stats.length; i++){
+    if (stats[i].value != null){
+      j += 1; total += stats[i].value!;
+    }
+  }
+  return total~/j;
 }

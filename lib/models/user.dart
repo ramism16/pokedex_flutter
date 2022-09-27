@@ -41,16 +41,18 @@ class User{
   static Map<String, List<int>> toMap() => {"ids" : instance.favouriteIDs.toList()};
 
   //functions for adding/removing favourite
-  static void addFavourite(int id){
-    if (!instance.favouriteIDs.contains(id))
+  static void addFavourite(int? id) async {
+    if (id != null && instance.favouriteIDs.contains(id))
       instance.favouriteIDs.add(id);
     favouritesCount.value = instance.favouriteIDs.length;
+    await saveState();
   }
 
-  static void removeFavourite(int id){
-    if (instance.favouriteIDs.contains(id))
+  static void removeFavourite(int? id) async {
+    if (id != null && instance.favouriteIDs.contains(id))
       instance.favouriteIDs.remove(id);
     favouritesCount.value = instance.favouriteIDs.length;
+    await saveState();
   }
 
   //Functions for cache read,save and delete

@@ -44,96 +44,104 @@ class _HomePageState extends State<HomePage> {
     tabs: [
       Tab(child: Text("All Pokemons")),
       Tab(child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("Favourites "),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(99)
-            ),
-            child: ValueListenableBuilder(
-              valueListenable: favouritesCount,
-              builder: (context, index, widget){
-                return Text("${favouritesCount.value}",
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),);
-              }
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Favourites "),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(99)
+              ),
+              child: Text("${favouritesCount.value}",
+                style: Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.white),
+              )
             )
-          )
-        ]
-      ))
+          ]
+        )),
     ],
   );
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: DefaultTabController(
-        length: 2,
-        animationDuration: Duration(milliseconds: 1500),
-        child: NestedScrollView(
-          headerSliverBuilder: (context, value) {
-            return [
-              SliverAppBar(
-                expandedHeight: 88,
-                pinned: false, snap: true, floating: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset('assets/icons/pokeball.png', height: 25, width: 25),
-                      SizedBox(width: 8),
-                      Text("Pokedex", style: Theme.of(context).textTheme.headline2)
-                    ],
+    return ValueListenableBuilder(
+      valueListenable: favouritesCount,
+      builder: (context, index, widget) => Scaffold(
+        body: DefaultTabController(
+          length: 2,
+          child: SafeArea(
+            child: NestedScrollView(
+              headerSliverBuilder: (context, value) {
+                return [
+                  SliverAppBar(
+                    backgroundColor: Colors.white,
+                    automaticallyImplyLeading: false,
+                    expandedHeight: 100,
+                    pinned: false, snap: true, floating: true,
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/pokeball.png', height: 25, width: 25),
+                          Text(" Pokedex", style: Theme.of(context).textTheme.headline2)
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  SliverPersistentHeader(
+                    delegate: _SliverTabBarDelegate(tabBar()),
+                    pinned: true,
+                    floating: true,
+                  ),
+                ];
+              },
+              body: TabBarView(
+                children: [
+                  /*
+                  TAB 1 (All pokemon)
+                  */
+                  FutureBuilder(
+                    future: rest_client.getNextPokemons(9, pageNumber * 9),
+                    builder: (context, snapshot){
+                      if (snapshot.connectionState != ConnectionState.done)
+                        return Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: Theme.of(context).primaryColor));
+                      if (snapshot.hasData){
+                        return PokemonGrid(snapshot.data, favouritesList: false);
+                      }
+                      else{
+                        if (snapshot.hasError) print(snapshot.error);
+                        return Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Theme.of(context).primaryColor,),
+                        );
+                      }
+                    }
+                  ),
+                  /*
+                  TAB 2 (favourites)
+                  */
+                  FutureBuilder(
+                    future: rest_client.getFavouritePokemons(User.instance.favouriteIDs),
+                    builder: (context, snapshot){
+                      if (snapshot.hasData){
+                        return PokemonGrid(snapshot.data, favouritesList: true);
+                      }
+                      else{
+                        if (snapshot.hasError) print(snapshot.error);
+                        return Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Theme.of(context).primaryColor,),
+                        );
+                      }
+                    }
+                  ),
+                ],
               ),
-              SliverPersistentHeader(
-                delegate: _SliverTabBarDelegate(tabBar()),
-                pinned: true,
-              )
-            ];
-          },
-          body: TabBarView(
-            children: [
-              /*
-              TAB 1 (All pokemon)
-              */
-              FutureBuilder(
-                future: rest_client.getNextPokemons(9, pageNumber * 9),
-                builder: (context, snapshot){
-                  if (snapshot.hasData){
-                    return PokemonGrid(snapshot.data, favouritesList: false);
-                  }
-                  else{
-                    if (snapshot.hasError) print(snapshot.error);
-                    return Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Theme.of(context).primaryColor,),
-                    );
-                  }
-                }
-              ),
-              /*
-              TAB 2 (favourites)
-              */
-              FutureBuilder(
-                future: rest_client.getFavouritePokemons(User.instance.favouriteIDs),
-                builder: (context, snapshot){
-                  if (snapshot.hasData){
-                    return PokemonGrid(snapshot.data, favouritesList: true);
-                  }
-                  else{
-                    if (snapshot.hasError) print(snapshot.error);
-                    return Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Theme.of(context).primaryColor,),
-                    );
-                  }
-                }
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -149,20 +157,18 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate{
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: Colors.white,
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: 15),
       child: tabBar,
     );
   }
 
   @override
-  double get maxExtent => tabBar.preferredSize.height + 30;
+  double get maxExtent => tabBar.preferredSize.height;
 
   @override
-  double get minExtent => tabBar.preferredSize.height + 30;
+  double get minExtent => tabBar.preferredSize.height;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+    return true;
   }
 }

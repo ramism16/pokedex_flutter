@@ -12,9 +12,10 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreenPage> {
   void setNavBarsSplashColors(bool set) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: set ? Color(0xff3558CD) : Colors.white,
+      statusBarColor: set ? Color(0xff3558CD) : Colors.transparent,
       statusBarBrightness: set ? Brightness.dark : Brightness.light,
       statusBarIconBrightness: set ? Brightness.light : Brightness.dark,
+      systemStatusBarContrastEnforced: true,
       systemNavigationBarColor: set ? Color(0xff3558CD) : Colors.white,
       systemNavigationBarIconBrightness:
           set ? Brightness.light : Brightness.dark,
@@ -24,8 +25,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   void initState() {
     setNavBarsSplashColors(true);
-    Timer(Duration(seconds: 4), () {
-      Navigator.of(context).pushReplacementNamed('/Details');
+    Timer(Duration(seconds: 5), () {
+      Navigator.of(context).pushReplacementNamed('/Home');
       setNavBarsSplashColors(false);
     });
     super.initState();
@@ -38,32 +39,27 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       body: Padding(
         padding: EdgeInsets.only(left: 40, right: 40),
         child: Center(
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          // Image.asset('assets/icons/pokeball.png', height: 75, width: 75,),
-          SizedBox(
-            width: 15,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "POKEMON",
-                style: GoogleFonts.notoSans(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 3),
-              ),
-              Text(
-                "Pokedex",
-                style: GoogleFonts.notoSans(
-                    color: Colors.white,
-                    fontSize: 48,
-                    fontWeight: FontWeight.w700),
-              ),
-            ],
-          )
+            Image.asset('assets/pokeball.png', height: 75, width: 75,),
+            SizedBox(width: 15,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("POKEMON",
+                  style: GoogleFonts.notoSans(
+                      color: Colors.white, fontSize: 16,
+                      fontWeight: FontWeight.w400, letterSpacing: 5),
+                ),
+                Text("Pokedex",
+                  style: GoogleFonts.notoSans(
+                      color: Colors.white, fontSize: 48,
+                      fontWeight: FontWeight.w700),
+                ),
+              ],
+            )
         ])),
       ),
     );

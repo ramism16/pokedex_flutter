@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_flutter/models/user.dart';
 
 class FavouriteButton extends StatefulWidget {
+  final int? pokemonID;
+  FavouriteButton(this.pokemonID);
+
   @override
   State<FavouriteButton> createState() => _FavouriteButtonState();
 }
 
 class _FavouriteButtonState extends State<FavouriteButton> {
   bool favourite = false;
+
+  @override
+  void initState() {
+    if (User.instance.favouriteIDs.contains(widget.pokemonID))
+      favourite = true;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
+          if (favourite) User.removeFavourite(widget.pokemonID);
+          else User.addFavourite(widget.pokemonID);
           favourite = !favourite;
         });
       },
@@ -28,9 +42,7 @@ class _FavouriteButtonState extends State<FavouriteButton> {
                 )
               : Text(
                   'Mark as favourite',
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: Colors.white,
-                      ),
+                  style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white,),
                 ),
         ),
       ),

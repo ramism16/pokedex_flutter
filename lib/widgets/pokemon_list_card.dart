@@ -11,7 +11,9 @@ class PokemonListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+        Navigator.of(context).pushNamed('/Details', arguments: pokemon);
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 3),
         constraints: BoxConstraints(minWidth: 110, maxHeight: 190),
@@ -20,25 +22,27 @@ class PokemonListCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            SizedBox(height: 10,),
             FadeInImage.assetNetwork(
-              placeholder: "assets/icons/pokeball.png",
+              placeholder: "assets/pokeball.png",
               placeholderFit: BoxFit.fitWidth,
               image: pokemon.imageURL!,
               fit: BoxFit.fitWidth,
               imageCacheHeight: 200,
               imageCacheWidth: 200,
               imageErrorBuilder: (context, obj, trace)
-                => Image.asset("assets/images/pokeball.png", fit: BoxFit.fitWidth),
+                => Image.asset("assets/pokeball.png", fit: BoxFit.fitWidth),
               placeholderErrorBuilder: (context, obj, trace)
                 => SizedBox(width: 100, height: 100)
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("#${pokemon.id}", style: GoogleFonts.notoSans(
                       color: Color(0xff161A33), fontSize: 16,
-                      fontWeight: FontWeight.w400, letterSpacing: 3),),
+                      fontWeight: FontWeight.w400),),
                   SizedBox(height: 2),
                   Text("${pokemon.name}", style: Theme.of(context).textTheme.headline5),
                   SizedBox(height: 10,),
