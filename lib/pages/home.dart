@@ -4,12 +4,34 @@ import '../widgets/pokemon_grid.dart';
 import '../rest_client.dart' as rest_client;
 
 class HomePage extends StatefulWidget {
+
+  static void changePage(BuildContext context, bool nextPage){
+    _HomePageState? state = context.findAncestorStateOfType<_HomePageState>();
+    state?.changePage(nextPage);
+  }
+
+  static int? getPageNumber(BuildContext context) {
+    _HomePageState? state = context.findAncestorStateOfType<_HomePageState>();
+    return state?.pageNumber;
+  }
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int pageNumber = 0;
+
+  void changePage(bool nextPage){
+    setState(() {
+      if (nextPage)
+        ++pageNumber;
+      else{
+        if (pageNumber > 0)
+          --pageNumber;
+      }
+    });
+  }
 
   TabBar tabBar() => TabBar(
     isScrollable: false,
@@ -97,19 +119,19 @@ class _HomePageState extends State<HomePage> {
               TAB 2 (favourites)
               */
               FutureBuilder(
-                  future: rest_client.getFavouritePokemons(User.instance.favouriteIDs),
-                  builder: (context, snapshot){
-                    if (snapshot.hasData){
-                      return PokemonGrid(snapshot.data, favouritesList: true);
-                    }
-                    else{
-                      if (snapshot.hasError) print(snapshot.error);
-                      return Center(
-                        child: CircularProgressIndicator(
-                          backgroundColor: Theme.of(context).primaryColor,),
-                      );
-                    }
+                future: rest_client.getFavouritePokemons(User.instance.favouriteIDs),
+                builder: (context, snapshot){
+                  if (snapshot.hasData){
+                    return PokemonGrid(snapshot.data, favouritesList: true);
                   }
+                  else{
+                    if (snapshot.hasError) print(snapshot.error);
+                    return Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Theme.of(context).primaryColor,),
+                    );
+                  }
+                }
               ),
             ],
           ),

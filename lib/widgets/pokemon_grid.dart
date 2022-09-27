@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex_flutter/widgets/pokemon_list_card.dart';
+import '../widgets/pokemon_list_card.dart';
 import '../models/pokemon.dart';
+import '../pages/home.dart';
 
 class PokemonGrid extends StatefulWidget {
   final List<Pokemon>? pokemonList;
@@ -55,9 +56,29 @@ class _PokemonGridState extends State<PokemonGrid> {
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-
+                    if (HomePage.getPageNumber(context)! > 0)
+                      GestureDetector(
+                        onTap: (){HomePage.changePage(context, false);},
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.arrow_back_ios_new, color: Theme.of(context).primaryColor,),
+                            Text(" Previous page")
+                          ],
+                        ),
+                      ),
+                    GestureDetector(
+                      onTap: (){HomePage.changePage(context, true);},
+                      child:Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("Next page "),
+                          Icon(Icons.arrow_forward_ios, color: Theme.of(context).primaryColor,),
+                        ],
+                      ),
+                    )
                   ],
                 )
               ],
