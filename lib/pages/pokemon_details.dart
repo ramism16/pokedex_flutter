@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_flutter/models/helper.dart';
+import 'package:pokedex_flutter/models/pokemon.dart';
 import 'package:pokedex_flutter/widgets/favourite_button.dart';
 
 class DetailsPage extends StatefulWidget {
+  Pokemon pokemon;
   @override
+  DetailsPage(this.pokemon);
   State<DetailsPage> createState() => _DetailsPageState();
 }
 
@@ -25,18 +29,18 @@ class _DetailsPageState extends State<DetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Bulbasaur',
+                '${widget.pokemon.name}',
                 style: Theme.of(context).textTheme.headline1,
               ),
               Text(
-                'Grass, Poison',
+                '${typesJoin(widget.pokemon.types)}',
                 style: Theme.of(context).textTheme.headline3,
               ),
               SizedBox(
                 height: 60,
               ),
               Text(
-                '#001',
+                '${widget.pokemon.id}',
                 style: Theme.of(context).textTheme.headline3,
               ),
             ],
@@ -60,7 +64,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(
-                    ' 69',
+                    '${widget.pokemon.height}',
                     style: Theme.of(context).textTheme.headline3,
                   ),
                 ],
@@ -73,7 +77,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(
-                    '7',
+                    '${widget.pokemon.weight}',
                     style: Theme.of(context).textTheme.headline3,
                   ),
                 ],
@@ -86,7 +90,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(
-                    '14.7',
+                    '${widget.pokemon.weight! / widget.pokemon.height! * widget.pokemon.height!}',
                     style: Theme.of(context).textTheme.headline3,
                   ),
                 ],
