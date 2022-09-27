@@ -93,7 +93,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       Text('BMI', style: Theme.of(context).textTheme.bodyText2,),
                       if (widget.pokemon.weight != null && widget.pokemon.height != null)
                       Text(
-                        '${widget.pokemon.weight! / widget.pokemon.height! * widget.pokemon.height!}',
+                        '${(widget.pokemon.weight! / (widget.pokemon.height! * widget.pokemon.height!)).toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
