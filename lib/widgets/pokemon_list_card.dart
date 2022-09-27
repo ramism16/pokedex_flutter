@@ -4,15 +4,20 @@ import 'package:google_fonts/google_fonts.dart';
 import '../models/pokemon.dart';
 import '../models/helper.dart' as helper;
 
-class PokemonListCard extends StatelessWidget {
+class PokemonListCard extends StatefulWidget {
   final Pokemon pokemon;
   PokemonListCard(this.pokemon);
 
   @override
+  State<PokemonListCard> createState() => _PokemonListCardState();
+}
+
+class _PokemonListCardState extends State<PokemonListCard> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.of(context).pushNamed('/Details', arguments: pokemon);
+        Navigator.of(context).pushNamed('/Details', arguments: widget.pokemon);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 3),
@@ -26,7 +31,7 @@ class PokemonListCard extends StatelessWidget {
             FadeInImage.assetNetwork(
               placeholder: "assets/pokeball.png",
               placeholderFit: BoxFit.fitWidth,
-              image: pokemon.imageURL!,
+              image: widget.pokemon.imageURL!,
               fit: BoxFit.fitWidth,
               imageCacheHeight: 200,
               imageCacheWidth: 200,
@@ -40,13 +45,13 @@ class PokemonListCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("#${pokemon.id}", style: GoogleFonts.notoSans(
+                  Text("#${widget.pokemon.id}", style: GoogleFonts.notoSans(
                       color: Color(0xff161A33), fontSize: 16,
                       fontWeight: FontWeight.w400),),
                   SizedBox(height: 2),
-                  Text("${pokemon.name}", style: Theme.of(context).textTheme.headline5),
+                  Text("${widget.pokemon.name}", style: Theme.of(context).textTheme.headline5),
                   SizedBox(height: 10,),
-                  Text("${helper.typesJoin(pokemon.types)}"),
+                  Text("${helper.typesJoin(widget.pokemon.types)}"),
                   SizedBox(height: 10)
                 ],
               ),

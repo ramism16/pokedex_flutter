@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:pokedex_flutter/models/user.dart';
 
 class FavouriteButton extends StatefulWidget {
@@ -12,10 +13,19 @@ class FavouriteButton extends StatefulWidget {
 class _FavouriteButtonState extends State<FavouriteButton> {
   bool favourite = false;
 
-  @override
-  void initState() {
+  void checkInFavourites() async {
+    print(User.instance.favouriteIDs);
+    await User.readState();
     if (User.instance.favouriteIDs.contains(widget.pokemonID))
       favourite = true;
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    checkInFavourites();
     super.initState();
   }
 

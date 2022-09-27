@@ -16,6 +16,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       statusBarBrightness: set ? Brightness.dark : Brightness.light,
       statusBarIconBrightness: set ? Brightness.light : Brightness.dark,
       systemStatusBarContrastEnforced: true,
+      systemNavigationBarContrastEnforced: true,
       systemNavigationBarColor: set ? Color(0xff3558CD) : Colors.white,
       systemNavigationBarIconBrightness:
           set ? Brightness.light : Brightness.dark,

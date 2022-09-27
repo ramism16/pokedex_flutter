@@ -6,18 +6,16 @@ ValueNotifier<int> favouritesCount = ValueNotifier(User.instance.favouriteIDs.le
 
 /// This is my approach to client-side state persistence linked to a user account/session
 class User{
-  //class members
-  List<int> favouriteIDs = [];
-
   //shared preferences (app cache) state storage key
   static String get sharedPrefsKey => "PokedexUserStateSPKey";
 
   //Making the singleton
   //1. Internal constructor
-  User._();
+  User._internal();
   //2. static instance variable
-  static User instance = User._();
+  static User instance = User._internal();
   //3. factory constructor
+  List<int> favouriteIDs = [];
   factory User({List<int>? favouriteIDs}){
     instance.favouriteIDs = favouriteIDs ?? instance.favouriteIDs;
     return instance;
@@ -42,7 +40,7 @@ class User{
 
   //functions for adding/removing favourite
   static void addFavourite(int? id) async {
-    if (id != null && instance.favouriteIDs.contains(id))
+    if (id != null && !instance.favouriteIDs.contains(id))
       instance.favouriteIDs.add(id);
     favouritesCount.value = instance.favouriteIDs.length;
     await saveState();

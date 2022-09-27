@@ -7,6 +7,8 @@ class DetailsPage extends StatefulWidget {
   final Pokemon pokemon;
   @override
   DetailsPage(this.pokemon);
+
+  @override
   State<DetailsPage> createState() => _DetailsPageState();
 }
 
