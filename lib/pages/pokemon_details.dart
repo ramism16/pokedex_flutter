@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_flutter/widgets/favourite_button.dart';
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -134,6 +135,7 @@ class _DetailsPageState extends State<DetailsPage> {
           ]),
         )
       ]),
+      floatingActionButton: FavouriteButton(),
     );
   }
 
