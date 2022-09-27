@@ -16,7 +16,7 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.4,
-        backgroundColor: Colors.green,
+        backgroundColor: getPokemonColor(widget.pokemon),
         iconTheme: IconThemeData(color: Colors.black),
         automaticallyImplyLeading: true,
       ),
@@ -26,7 +26,7 @@ class _DetailsPageState extends State<DetailsPage> {
             Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               width: MediaQuery.of(context).size.width,
-              color: Colors.green,
+              color: getPokemonColor(widget.pokemon),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

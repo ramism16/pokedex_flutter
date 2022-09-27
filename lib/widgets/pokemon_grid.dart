@@ -22,7 +22,7 @@ class _PokemonGridState extends State<PokemonGrid> {
     if (widget.pokemonList!.isNotEmpty) {
       if (widget.favouritesList)
         return Padding(
-          padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+          padding: EdgeInsets.fromLTRB(15,30,15,0),
           child: GridView.count(
             addAutomaticKeepAlives: false,
             shrinkWrap: true,
@@ -30,7 +30,7 @@ class _PokemonGridState extends State<PokemonGrid> {
             crossAxisCount: 3,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            childAspectRatio: 110 / 190,
+            childAspectRatio: 110 / 200,
             children: List.generate(widget.pokemonList!.length, (index){
               return PokemonListCard(widget.pokemonList![index]);
             })
@@ -38,8 +38,9 @@ class _PokemonGridState extends State<PokemonGrid> {
         );
       else
         return Padding(
-          padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+          padding: EdgeInsets.fromLTRB(15,30,15,0),
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               children: [
                 GridView.count(
@@ -54,9 +55,12 @@ class _PokemonGridState extends State<PokemonGrid> {
                     return PokemonListCard(widget.pokemonList![index]);
                   })
                 ),
+                SizedBox(height: 15,),
                 Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: HomePage.getPageNumber(context)! > 0
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.end,
                   children: [
                     if (HomePage.getPageNumber(context)! > 0)
                       GestureDetector(
@@ -64,18 +68,19 @@ class _PokemonGridState extends State<PokemonGrid> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.arrow_back_ios_new, color: Theme.of(context).primaryColor,),
-                            Text(" Previous page")
+                            Icon(Icons.arrow_back_ios_new, size: 20, color: Theme.of(context).primaryColor,),
+                            Text("Previous page", style: Theme.of(context).textTheme.headline5,)
                           ],
                         ),
                       ),
                     GestureDetector(
                       onTap: (){HomePage.changePage(context, true);},
-                      child:Row(
+                      child:
+                      Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text("Next page "),
-                          Icon(Icons.arrow_forward_ios, color: Theme.of(context).primaryColor,),
+                          Text("Next page", style: Theme.of(context).textTheme.headline5,),
+                          Icon(Icons.arrow_forward_ios, size: 20, color: Theme.of(context).primaryColor,),
                         ],
                       ),
                     )
@@ -87,7 +92,7 @@ class _PokemonGridState extends State<PokemonGrid> {
         );
     }
     else {
-      return Center(child: Text("No Pokemon data available",
+      return Center(child: Text("No ${widget.favouritesList ? "Favourites" : "Pokemon data available"}",
         style: Theme.of(context).textTheme.headline2));
     }
   }
