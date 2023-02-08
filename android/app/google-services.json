@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "29920040328",
+    "project_id": "pokedex-bloc",
+    "storage_bucket": "pokedex-bloc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29920040328:android:709324139e93d96923d63d",
+        "android_client_info": {
+          "package_name": "com.bayzat.pokedex.pokedex_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29920040328-mblt92365va9rp5q9bmamieu8khafjur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bayzat.pokedex.pokedex_flutter",
+            "certificate_hash": "364683d812fac8ddc7fa68f1cc3717ac161afdfc"
+          }
+        },
+        {
+          "client_id": "29920040328-g75u9ncqki0id4hjsdkq92cis8bjlb9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALT8mRcHWwSGg8LHTlD7cBCoN8WJjVItQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29920040328-g75u9ncqki0id4hjsdkq92cis8bjlb9g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
