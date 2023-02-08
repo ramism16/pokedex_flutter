@@ -55,3 +55,15 @@ int? getStatsAverage(List<Stat>? stats){
   }
   return total~/j;
 }
+
+String? getID(int? id){
+  if (id == null) return null;
+  if (id > 1000)
+    return '#$id';
+  if (id > 100)
+    return '#0$id';
+  if (id > 10)
+    return '#00$id';
+  else
+    return '#000$id';
+}

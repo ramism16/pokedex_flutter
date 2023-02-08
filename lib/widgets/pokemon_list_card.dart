@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/pokemon.dart';
-import '../models/helper.dart' as helper;
+import '../models/helper.dart';
 
 class PokemonListCard extends StatefulWidget {
   final Pokemon pokemon;
@@ -45,13 +45,13 @@ class _PokemonListCardState extends State<PokemonListCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("#${widget.pokemon.id}", style: GoogleFonts.notoSans(
+                  Text("${getID(widget.pokemon.id)}", style: GoogleFonts.notoSans(
                       color: Color(0xff161A33), fontSize: 16,
                       fontWeight: FontWeight.w400),),
                   SizedBox(height: 2),
-                  Text("${widget.pokemon.name}", style: Theme.of(context).textTheme.headline5),
+                  Text("${widget.pokemon.name?.capitalize()}", style: Theme.of(context).textTheme.headline5),
                   SizedBox(height: 10,),
-                  Text("${helper.typesJoin(widget.pokemon.types)}"),
+                  Text("${typesJoin(widget.pokemon.types)}"),
                   SizedBox(height: 10)
                 ],
               ),

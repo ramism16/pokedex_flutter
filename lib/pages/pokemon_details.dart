@@ -121,7 +121,10 @@ class _DetailsPageState extends State<DetailsPage> {
                     shrinkWrap: true,
                     padding: EdgeInsets.only(left: 20, right: 20, top: 10),
                     itemBuilder: (context, index){
-                      return statBar(widget.pokemon.stats[index].name, widget.pokemon.stats[index].value);
+                       return statBar(widget.pokemon.stats[index].name == "special-attack"
+                           ? "Special Attack"
+                           : widget.pokemon.stats[index].name,
+                           widget.pokemon.stats[index].value);
                     },
                     separatorBuilder: (context, index) => SizedBox(height: 25,),
                     itemCount: widget.pokemon.stats.length
