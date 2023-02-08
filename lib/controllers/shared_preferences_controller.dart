@@ -34,12 +34,9 @@ class SharedPreferencesController{
         if (localFavourites["firebaseUID"] != null && localFavourites['firebaseUID'] == FirebaseAuth.instance.currentUser?.uid){
           localFavourites['ids']?.forEach((id){instance.favouriteIDs.add(id);});
         }
-        else {
-          instance.favouriteIDs.clear();
-          deleteState();
-        }
+        else deleteState();
       }
-      else instance.favouriteIDs.clear();
+      else deleteState();
     }
     catch (e,trace){
       print("[USER] - fromJson error $e\n$trace");
@@ -48,7 +45,13 @@ class SharedPreferencesController{
 
   // for new user
   static void setUserId(String? uid) async {
-    if (uid != null) instance.firebaseUID = uid;
+    await readState();
+    if (uid != null) {
+      if (instance.firebaseUID != uid){
+        await deleteState();
+        instance.firebaseUID = uid;
+      }
+    }
     await saveState();
   }
 
@@ -75,7 +78,9 @@ class SharedPreferencesController{
   }
 
   static Future<void> deleteState() async {
-    instance.favouriteIDs = [];
+    instance.firebaseUID = "";
+    instance.favouriteIDs.clear();
+    favouritesCount.value = 0;
 
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey(sharedPrefsKey)) {await prefs.remove(sharedPrefsKey);}

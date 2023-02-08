@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/pokemon_list_card.dart';
 import '../models/pokemon.dart';
@@ -85,7 +86,12 @@ class _PokemonGridState extends State<PokemonGrid> {
                       ),
                     )
                   ],
-                )
+                ),
+                SizedBox(height: 10,),
+                TextButton(
+                  onPressed: (){FirebaseAuth.instance.signOut(); Navigator.of(context).pushNamed("/SplashScreen");},
+                  child: Text("User sign out (debug only)   ", style: Theme.of(context).textTheme.headline5,),
+                ),
               ],
             ),
           ),

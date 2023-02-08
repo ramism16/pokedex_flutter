@@ -86,6 +86,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
               body: Padding(
                 padding: EdgeInsets.all(32),
                 child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -147,6 +148,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                       TextButton(
                         child: Text("Log in instead", style: Theme.of(context).textTheme.headline3?.copyWith(color: Theme.of(context).primaryColor),),
                         onPressed: () {
+                          Navigator.of(context).pushReplacementNamed("/Login");
                         },
                       ),
                     ],

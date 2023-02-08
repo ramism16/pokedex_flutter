@@ -31,7 +31,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       if (FirebaseAuth.instance.currentUser != null)
         Navigator.of(context).pushReplacementNamed('/Home');
       else
-        Navigator.of(context).pushReplacementNamed("/Signup");
+        Navigator.of(context).pushReplacementNamed("/Login");
       setNavBarsSplashColors(false);
     });
     super.initState();
