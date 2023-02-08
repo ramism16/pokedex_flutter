@@ -18,6 +18,14 @@ dependencies:
   google_fonts: ^3.0.1
   page_transition: ^2.0.9
   shared_preferences: ^2.0.15
+  firebase_auth: ^4.0.2
+  flutter_bloc: ^8.1.2
+  equatable: ^2.0.5
+  meta: ^1.8.0
+  firebase_core_platform_interface: 4.5.1
+  flutter_form_builder: ^7.7.0
+  firebase_core: ^2.1.0
+
 
 dev_dependencies:
   flutter_test:

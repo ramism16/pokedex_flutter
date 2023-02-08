@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pokedex_flutter/models/pokemon.dart';
+import 'package:pokedex_flutter/pages/sign_up.dart';
 import 'pages/pokemon_details.dart';
 import 'pages/home.dart';
 import 'pages/splash_screen_page.dart';
@@ -17,6 +18,10 @@ class RouteGenerator {
         return PageTransition(child: HomePage(), type: PageTransitionType.fade);
       case "/Details":
         return PageTransition(child: DetailsPage(settings.arguments as Pokemon), type: PageTransitionType.fade);
+      case '/Signup':
+        return PageTransition(child: SignUpUserPage(), type: PageTransitionType.fade);
+      // case '/Login':
+      //   return PageTransition(child: child, type: type)
       default:
         return PageTransition(child: NavigationErrorPage(settings.name), type: PageTransitionType.fade);
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:pokedex_flutter/models/user.dart';
+import '../controllers/shared_preferences_controller.dart';
 
 class FavouriteButton extends StatefulWidget {
   final int? pokemonID;
@@ -14,12 +14,13 @@ class _FavouriteButtonState extends State<FavouriteButton> {
   bool favourite = false;
 
   void checkInFavourites() async {
-    print(User.instance.favouriteIDs);
-    await User.readState();
-    if (User.instance.favouriteIDs.contains(widget.pokemonID))
-      favourite = true;
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {});
+    print(SharedPreferencesController.instance.favouriteIDs);
+    await SharedPreferencesController.readState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        if (SharedPreferencesController.instance.favouriteIDs.contains(widget.pokemonID))
+          favourite = true;
+      });
     });
   }
 
@@ -34,8 +35,8 @@ class _FavouriteButtonState extends State<FavouriteButton> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          if (favourite) User.removeFavourite(widget.pokemonID);
-          else User.addFavourite(widget.pokemonID);
+          if (favourite) SharedPreferencesController.removeFavourite(widget.pokemonID);
+          else SharedPreferencesController.addFavourite(widget.pokemonID);
           favourite = !favourite;
         });
       },

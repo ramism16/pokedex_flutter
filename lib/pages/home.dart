@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/user.dart';
 import '../widgets/pokemon_grid.dart';
 import '../rest_client.dart' as rest_client;
+import '../controllers/shared_preferences_controller.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                   TAB 2 (favourites)
                   */
                   FutureBuilder(
-                    future: rest_client.getFavouritePokemons(User.instance.favouriteIDs),
+                    future: rest_client.getFavouritePokemons(SharedPreferencesController.instance.favouriteIDs),
                     builder: (context, snapshot){
                       if (snapshot.hasData){
                         return PokemonGrid(snapshot.data, favouritesList: true);

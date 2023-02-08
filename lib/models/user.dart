@@ -1,85 +1,21 @@
-import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+import 'package:equatable/equatable.dart';
 
-ValueNotifier<int> favouritesCount = ValueNotifier(User.instance.favouriteIDs.length);
+class User extends Equatable {
+  final String? email;
+  final String id;
+  final String? name;
 
-/// This is my approach to client-side state persistence linked to a user account/session
-class User{
-  //shared preferences (app cache) state storage key
-  static String get sharedPrefsKey => "PokedexUserStateSPKey";
+  const User({
+    required this.id,
+    this.email,
+    this.name,
+  });
 
-  //Making the singleton
-  //1. Internal constructor
-  User._internal();
-  //2. static instance variable
-  static User instance = User._internal();
-  //3. factory constructor
-  List<int> favouriteIDs = [];
-  factory User({List<int>? favouriteIDs}){
-    instance.favouriteIDs = favouriteIDs ?? instance.favouriteIDs;
-    return instance;
-  }
+  static const empty = User(id: '');
 
-  //serializing
-  static void fromJson(String? jsonMap){
-    try{
-      if (jsonMap != null){
-        instance.favouriteIDs.clear();
-        final localFavourites = json.decode(jsonMap)['ids'];
-        localFavourites?.forEach((id){instance.favouriteIDs.add(id);});
-      }
-      else{ instance.favouriteIDs.clear(); }
-    }
-    catch (e,trace){
-      print("[USER] - fromJson error $e\n$trace");
-    }
-  }
+  bool get isEmpty => this == User.empty;
+  bool get isNotEmpty => this != User.empty;
 
-  static Map<String, List<int>> toMap() => {"ids" : instance.favouriteIDs.toList()};
-
-  //functions for adding/removing favourite
-  static void addFavourite(int? id) async {
-    if (id != null && !instance.favouriteIDs.contains(id))
-      instance.favouriteIDs.add(id);
-    favouritesCount.value = instance.favouriteIDs.length;
-    await saveState();
-  }
-
-  static void removeFavourite(int? id) async {
-    if (id != null && instance.favouriteIDs.contains(id))
-      instance.favouriteIDs.remove(id);
-    favouritesCount.value = instance.favouriteIDs.length;
-    await saveState();
-  }
-
-  //Functions for cache read,save and delete
-  static Future<void> saveState() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(sharedPrefsKey, json.encode(toMap()));
-    print("[User] - state saved");
-  }
-
-  static Future<void> deleteState() async {
-    instance.favouriteIDs = [];
-
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(sharedPrefsKey)) {await prefs.remove(sharedPrefsKey);}
-    await prefs.clear();
-    print("[User] - state deleted");
-  }
-
-  static Future readState() async{
-    final prefs = await SharedPreferences.getInstance();
-    try {
-      if (prefs.containsKey(sharedPrefsKey)) {
-        User.fromJson(prefs.getString(sharedPrefsKey));
-        print("[User] - state read");
-      }
-    }
-    catch (e,trace){
-      print("[User] - read state error: $e");
-      print("[User] - read state error: $trace");
-    }
-  }
+  @override
+  List<Object?> get props => [email, id, name];
 }

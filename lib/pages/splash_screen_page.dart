@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +28,10 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   void initState() {
     setNavBarsSplashColors(true);
     Timer(Duration(seconds: 5), () {
-      Navigator.of(context).pushReplacementNamed('/Home');
+      if (FirebaseAuth.instance.currentUser != null)
+        Navigator.of(context).pushReplacementNamed('/Home');
+      else
+        Navigator.of(context).pushReplacementNamed("/Signup");
       setNavBarsSplashColors(false);
     });
     super.initState();

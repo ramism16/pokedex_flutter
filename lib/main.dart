@@ -1,11 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'models/user.dart';
+import 'controllers/shared_preferences_controller.dart';
 import 'settings/constants.dart' as constants;
+import 'package:firebase_core/firebase_core.dart';
 import 'route_generator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp(name: "Pokedex Flutter",
+    options: FirebaseOptions(
+      apiKey: "AIzaSyALT8mRcHWwSGg8LHTlD7cBCoN8WJjVItQ",
+      appId: "1:29920040328:android:709324139e93d96923d63d",
+      messagingSenderId: "29920040328",
+      projectId: "pokedex-bloc")
+  );
   runApp(PokedexApp());
 }
 
@@ -20,9 +29,9 @@ class _PokedexAppState extends State<PokedexApp> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async{
     // Persist user state (containing favourites) using singleton model to cache
     if (state == AppLifecycleState.resumed)
-      await User.readState();
+      await SharedPreferencesController.readState();
     else
-      await User.saveState();
+      await SharedPreferencesController.saveState();
   }
 
   @override
